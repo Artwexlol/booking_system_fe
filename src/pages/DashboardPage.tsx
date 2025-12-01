@@ -3,6 +3,7 @@ import TopNav from "../components/TopNav";
 import SideBar from "../components/SideBar";
 import { useAuth } from "../context/AuthContext";
 import { Link } from "react-router-dom";
+import DashboardCalendar from "../components/DashboardCalendar";
 
 export default function DashboardPage() {
   const { user } = useAuth();
@@ -39,6 +40,7 @@ export default function DashboardPage() {
               </p>
             </Link>
           </div>
+          <DashboardCalendar/>
         </main>
       </div>
     </div>
