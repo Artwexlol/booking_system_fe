@@ -1,6 +1,8 @@
 import { FormEvent, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+
 
 export default function LoginPage() {
   const { login } = useAuth();
@@ -69,6 +71,12 @@ export default function LoginPage() {
             {loading ? "Belépés..." : "Belépés"}
           </button>
         </form>
+        <p className="mt-4 text-center text-sm text-slate-600">
+          Nincs még fiókod?{" "}
+          <Link to="/register" className="text-sky-600 hover:underline">
+          Regisztráció
+        </Link>
+        </p>
       </div>
     </div>
   );

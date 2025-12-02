@@ -6,6 +6,8 @@ import DashboardPage from "./pages/DashboardPage";
 import CalendarPage from "./pages/CalendarPage";
 import MyBookingsPage from "./pages/MyBookingsPage";
 import AdminPage from "./pages/AdminPage";
+import RegisterPage from "./pages/RegisterPage";
+import type { JSX } from "react";
 
 function RequireAuth({ children }: { children: JSX.Element }) {
   const { user, loading } = useAuth();
@@ -44,7 +46,14 @@ export default function App() {
           </RedirectIfLoggedIn>
         }
       />
-
+      <Route
+        path="/register"
+        element={
+          <RedirectIfLoggedIn>
+              <RegisterPage />
+          </RedirectIfLoggedIn>
+        }
+      />
       <Route
         path="/"
         element={

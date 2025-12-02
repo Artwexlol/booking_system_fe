@@ -78,7 +78,7 @@ export default function CalendarPage() {
       <div className="flex flex-1">
         <SideBar />
         <main className="flex-1 p-6 space-y-4 bg-slate-50">
-          <h2 className="text-2xl font-semibold mb-2">Naptár / Foglalás</h2>
+          <h2 className="text-2xl font-semibold mb-2">Foglalás</h2>
 
           <div className="flex gap-4">
             <div className="w-56 bg-white rounded-xl shadow p-3">

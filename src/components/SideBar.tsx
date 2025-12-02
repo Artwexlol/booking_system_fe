@@ -24,7 +24,7 @@ export default function SideBar() {
         Kezdőlap
       </NavLink>
       <NavLink to="/calendar" className={linkClass}>
-        Naptár / Foglalás
+        Foglalás
       </NavLink>
       <NavLink to="/bookings" className={linkClass}>
         Foglalásaim

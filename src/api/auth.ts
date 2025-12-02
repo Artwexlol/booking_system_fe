@@ -54,10 +54,20 @@ export async function meApi(): Promise<User> {
 
   const rolesResp = await http.get<Role[]>(`/users/${payload.user_id}/roles`);
 
+  
   return {
     id: userResp.data.user_id,
     name: userResp.data.name,
     email: userResp.data.email,
     roles: rolesResp.data,
   };
+}
+
+export async function register(name: string, email: string, password: string) {
+  const res = await http.post<User>("/users", {
+    name,
+    email,
+    password,
+  });
+  return res.data;
 }

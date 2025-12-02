@@ -7,7 +7,7 @@ import {
   ReactNode,
 } from "react";
 import type { User, Role } from "../types";
-import { loginApi, meApi } from "../api/auth";
+import { loginApi, meApi, register as registerApi } from "../api/auth";
 import { http } from "../api/http";
 
 type AuthContextValue = {
@@ -15,6 +15,7 @@ type AuthContextValue = {
   loading: boolean;
   login: (email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
+  register: (name: string, email: string, password: string) => Promise<void>;
 };
 
 const AuthContext = createContext<AuthContextValue | undefined>(undefined);
@@ -23,6 +24,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
+  // induláskor token + user betöltése
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (!token) {
@@ -44,12 +46,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     })();
   }, []);
 
+  // BEJELENTKEZÉS
   const login = async (email: string, password: string) => {
     const { token, user } = await loginApi(email, password);
 
     localStorage.setItem("token", token);
 
-    // lekérjük a role-okat
+    // role-ok lekérése
     let roles: Role[] = [];
     try {
       const { data } = await http.get<Role[]>(`/users/${user.id}/roles`);
@@ -61,6 +64,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setUser({ ...user, roles });
   };
 
+  // KIJELENTKEZÉS
   const logout = async () => {
     const token = localStorage.getItem("token");
     localStorage.removeItem("token");
@@ -69,15 +73,26 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     if (token) {
       try {
         await http.post("/auth/logout", {});
-      } catch (_e) {
+      } catch {
       }
     }
   };
 
+  // REGISZTRÁCIÓ
+  const register = async (name: string, email: string, password: string) => {
+    await registerApi(name, email, password);
+  };
+
+  const value: AuthContextValue = {
+    user,
+    loading,
+    login,
+    logout,
+    register,
+  };
+
   return (
-    <AuthContext.Provider value={{ user, loading, login, logout }}>
-      {children}
-    </AuthContext.Provider>
+    <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
   );
 }
 
